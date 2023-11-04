@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name FloatableCharacter2D
+class_name FloatablePlayer2D
 
 @export var mass := 1.0
 @export var fluid_damp := 5.0

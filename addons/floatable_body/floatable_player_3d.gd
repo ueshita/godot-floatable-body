@@ -1,5 +1,5 @@
 extends CharacterBody3D
-class_name FloatableCharacter3D
+class_name FloatablePlayer3D
 
 @export var mass := 1.0
 @export var fluid_damp := 5.0

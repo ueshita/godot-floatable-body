@@ -1,5 +1,5 @@
 extends RigidBody3D
-class_name FloatablePlayer3D
+class_name FloatableBody3D
 
 signal entered_to_fluid(Vector3)
 signal exited_to_fluid(Vector3)
