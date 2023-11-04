@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://addons/floatable_body/fluid_area_3d.gd" id="1_kn5v8"]
 [ext_resource type="Script" path="res://addons/floatable_body/floatable_body_3d.gd" id="2_v1meu"]
-[ext_resource type="PackedScene" uid="uid://08s3rig5m8f2" path="res://demo/models/Sail_ship.fbx" id="3_l7vx2"]
-[ext_resource type="PackedScene" uid="uid://dop8s6qgpgr8h" path="res://demo/models/Rubber_duck.fbx" id="4_3au2j"]
+[ext_resource type="PackedScene" uid="uid://cr6yomawfjft2" path="res://demo/models/Sail_ship.glb" id="3_5ihh1"]
+[ext_resource type="PackedScene" uid="uid://cg3wheliqbsqf" path="res://demo/models/Rubber_Duck.glb" id="4_hbsui"]
 [ext_resource type="Script" path="res://addons/floatable_body/floatable_player_3d.gd" id="5_1yd33"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_irtdf"]
@@ -126,13 +126,13 @@ center_of_mass_mode = 1
 center_of_mass = Vector3(0, -1, 0)
 script = ExtResource("2_v1meu")
 
-[node name="SailShip" parent="Sail_ship" instance=ExtResource("3_l7vx2")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sail_ship"]
 transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0.138, 0)
 shape = SubResource("CapsuleShape3D_470d3")
 metadata/_edit_lock_ = true
+
+[node name="Sail_ship" parent="Sail_ship" instance=ExtResource("3_5ihh1")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="Rubber_duck" type="RigidBody3D" parent="."]
 transform = Transform3D(0.730854, -0.682534, 0, 0.682534, 0.730854, 0, 0, 0, 1, 0.0438379, 2.22034, 2.10281)
@@ -141,24 +141,24 @@ center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.1, 0)
 script = ExtResource("2_v1meu")
 
-[node name="Root Scene" parent="Rubber_duck" instance=ExtResource("4_3au2j")]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -0.3, 0)
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rubber_duck"]
 shape = SubResource("SphereShape3D_ep6v1")
 metadata/_edit_lock_ = true
+
+[node name="Root Scene" parent="Rubber_duck" instance=ExtResource("4_hbsui")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69971, 3.55438)
 script = ExtResource("5_1yd33")
 mass = 0.2
 
-[node name="Root Scene" parent="Player" instance=ExtResource("4_3au2j")]
-transform = Transform3D(-10, 0, -8.74228e-07, 0, 10, 0, 8.74228e-07, 0, -10, 0, -0.3, 0)
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("SphereShape3D_ep6v1")
 metadata/_edit_lock_ = true
+
+[node name="Root Scene" parent="Player" instance=ExtResource("4_hbsui")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.19783, 2.38601, 0)

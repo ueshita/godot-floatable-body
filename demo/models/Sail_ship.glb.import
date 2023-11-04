@@ -3,20 +3,20 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://08s3rig5m8f2"
-path="res://.godot/imported/Sail_ship.fbx-9e65d74029a8934b9c4b5e16eeaf11b4.scn"
+uid="uid://cr6yomawfjft2"
+path="res://.godot/imported/Sail_ship.glb-102cc8601ee8ae5b0fd9f4ddb95a5576.scn"
 
 [deps]
 
-source_file="res://demo/models/Sail_ship.fbx"
-dest_files=["res://.godot/imported/Sail_ship.fbx-9e65d74029a8934b9c4b5e16eeaf11b4.scn"]
+source_file="res://demo/models/Sail_ship.glb"
+dest_files=["res://.godot/imported/Sail_ship.glb-102cc8601ee8ae5b0fd9f4ddb95a5576.scn"]
 
 [params]
 
 nodes/root_type=""
 nodes/root_name=""
 nodes/apply_root_scale=true
-nodes/root_scale=1.0
+nodes/root_scale=0.01
 meshes/ensure_tangents=true
 meshes/generate_lods=true
 meshes/create_shadow_meshes=true
