@@ -1,0 +1,101 @@
+[gd_scene load_steps=15 format=3 uid="uid://84seb8tl1ypj"]
+
+[ext_resource type="Script" path="res://demo/minigame/game_mgr.gd" id="1_ef5pj"]
+[ext_resource type="Script" path="res://addons/floatable_body/fluid_area_3d.gd" id="1_mom0v"]
+[ext_resource type="PackedScene" uid="uid://css18x6gu4u5f" path="res://demo/minigame/damage_obj.tscn" id="2_o3bx6"]
+[ext_resource type="PackedScene" uid="uid://q2baqj4xjnp6" path="res://demo/minigame/chara_unit.tscn" id="3_ep38l"]
+[ext_resource type="Script" path="res://demo/minigame/chara_mgr.gd" id="4_onxce"]
+[ext_resource type="Script" path="res://demo/minigame/camera_cursor.gd" id="4_v8eon"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_hpchg"]
+top_radius = 1.0
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v03kc"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.596078)
+
+[sub_resource type="BoxMesh" id="BoxMesh_irtdf"]
+size = Vector3(10, 2, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khfql"]
+transparency = 1
+albedo_color = Color(0.0588235, 0.6, 1, 0.45098)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ljp7n"]
+size = Vector3(10, 2, 10)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rul1x"]
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 3.0
+initial_velocity_max = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5eyxg"]
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_yibci"]
+material = SubResource("StandardMaterial3D_5eyxg")
+size = Vector2(0.02, 0.02)
+
+[node name="MiniGame3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.257032, 0.966403, 0, -0.966403, 0.257032, 0, 3.42337, 0)
+shadow_enabled = true
+shadow_opacity = 0.5
+
+[node name="GameMgr" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_ef5pj")
+damage_obj_scene = ExtResource("2_o3bx6")
+
+[node name="CameraCursor" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_v8eon")
+
+[node name="Camera3D" type="Camera3D" parent="CameraCursor"]
+transform = Transform3D(1, 0, 0, 0, 0.794606, 0.607126, 0, -0.607126, 0.794606, 0, 2.7613, 6.64324)
+fov = 60.0
+
+[node name="Cursor" type="Node3D" parent="CameraCursor"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CameraCursor/Cursor"]
+sorting_offset = 100.0
+mesh = SubResource("CylinderMesh_hpchg")
+surface_material_override/0 = SubResource("StandardMaterial3D_v03kc")
+
+[node name="WaterSurface" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_layer = 9
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+linear_damp = 1.0
+script = ExtResource("1_mom0v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WaterSurface"]
+mesh = SubResource("BoxMesh_irtdf")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_khfql")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WaterSurface"]
+shape = SubResource("BoxShape3D_ljp7n")
+metadata/_edit_lock_ = true
+
+[node name="CharaMgr" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_onxce")
+chara_scene = ExtResource("3_ep38l")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.19783, 2.38601, 0)
+emitting = false
+amount = 100
+lifetime = 0.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_rul1x")
+draw_pass_1 = SubResource("QuadMesh_yibci")

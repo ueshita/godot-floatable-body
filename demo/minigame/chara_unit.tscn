@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://q2baqj4xjnp6"]
+
+[ext_resource type="Script" path="res://demo/minigame/chara_unit.gd" id="1_2kvpi"]
+[ext_resource type="PackedScene" uid="uid://cg3wheliqbsqf" path="res://demo/models/Rubber_Duck.glb" id="2_n0bja"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ep6v1"]
+radius = 0.3
+
+[node name="CharaUnit" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mass = 0.3
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, -0.1, 0)
+script = ExtResource("1_2kvpi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ep6v1")
+metadata/_edit_lock_ = true
+
+[node name="Root Scene" parent="." instance=ExtResource("2_n0bja")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
