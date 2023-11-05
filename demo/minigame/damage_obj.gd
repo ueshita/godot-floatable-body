@@ -1,16 +1,27 @@
 extends FloatableBody3D
 
+var water_entered := false
+
 func _ready():
 	super._ready()
-	body_entered.connect(_on_body_entered)
+	$Mesh.scale = Vector3.ZERO
 
 
 func _process(delta):
-	mass += 1.0 * delta
+	if water_entered:
+		mass += 1.0 * delta
+	else:
+		$Mesh.scale += Vector3.ONE * (1/sqrt(2.0) * delta)
 	if global_position.y < -5:
 		queue_free()
 
 
-func _on_body_entered(node: Node):
-	if node.has_method("damage"):
-		node.damage(1)
+func fluid_area_enter(area: FluidArea3D):
+	super.fluid_area_enter(area)
+
+	if not water_entered:
+		var pos = global_position
+		var splash = preload("res://demo/minigame/splash2.tscn").instantiate()
+		get_viewport().add_child(splash)
+		splash.global_position = Vector3(pos.x, 0, pos.z)
+	water_entered = true

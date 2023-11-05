@@ -4,11 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://cg3wheliqbsqf" path="res://demo/models/Rubber_Duck.glb" id="2_n0bja"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ep6v1"]
-radius = 0.3
+radius = 0.2
 
 [node name="CharaUnit" type="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-mass = 0.3
+mass = 0.15
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.1, 0)
 script = ExtResource("1_2kvpi")
@@ -18,4 +17,4 @@ shape = SubResource("SphereShape3D_ep6v1")
 metadata/_edit_lock_ = true
 
 [node name="Root Scene" parent="." instance=ExtResource("2_n0bja")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, -0.2, 0)

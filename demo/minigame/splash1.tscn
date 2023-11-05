@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsywbuvbd8jir"]
+
+[ext_resource type="Script" path="res://demo/minigame/splash.gd" id="1_6tfa5"]
+[ext_resource type="AudioStream" uid="uid://dnibepvxfwaoa" path="res://demo/minigame/splash1.wav" id="2_ap0yw"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rul1x"]
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 3.0
+initial_velocity_max = 4.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5eyxg"]
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_kc55n"]
+material = SubResource("StandardMaterial3D_5eyxg")
+size = Vector2(0.02, 0.02)
+
+[node name="Splash" type="GPUParticles3D"]
+emitting = false
+amount = 70
+lifetime = 0.3
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_rul1x")
+draw_pass_1 = SubResource("QuadMesh_kc55n")
+script = ExtResource("1_6tfa5")
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_ap0yw")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://84seb8tl1ypj"]
+[gd_scene load_steps=19 format=3 uid="uid://84seb8tl1ypj"]
 
 [ext_resource type="Script" path="res://demo/minigame/game_mgr.gd" id="1_ef5pj"]
 [ext_resource type="Script" path="res://addons/floatable_body/fluid_area_3d.gd" id="1_mom0v"]
@@ -6,40 +6,34 @@
 [ext_resource type="PackedScene" uid="uid://q2baqj4xjnp6" path="res://demo/minigame/chara_unit.tscn" id="3_ep38l"]
 [ext_resource type="Script" path="res://demo/minigame/chara_mgr.gd" id="4_onxce"]
 [ext_resource type="Script" path="res://demo/minigame/camera_cursor.gd" id="4_v8eon"]
+[ext_resource type="PackedScene" uid="uid://bnrpy26qxlbcm" path="res://demo/minigame/coin.tscn" id="5_uxr51"]
+[ext_resource type="AudioStream" uid="uid://dvh6rtwqcr5jr" path="res://demo/minigame/coin.wav" id="6_flmiy"]
+[ext_resource type="Shader" path="res://demo/minigame/cursor.gdshader" id="6_owk1i"]
+[ext_resource type="FontVariation" uid="uid://wugvjda7wd5u" path="res://demo/minigame/font_titile.tres" id="7_4dd8f"]
+[ext_resource type="Script" path="res://demo/minigame/gui.gd" id="7_8rnob"]
+[ext_resource type="AudioStream" uid="uid://bwcypymo8yiy4" path="res://demo/minigame/duck.wav" id="7_dyd3d"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_hpchg"]
-top_radius = 1.0
-height = 0.1
+[sub_resource type="QuadMesh" id="QuadMesh_yca5c"]
+size = Vector2(2, 2)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v03kc"]
-transparency = 1
-albedo_color = Color(1, 1, 1, 0.596078)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xvuc3"]
+render_priority = 0
+shader = ExtResource("6_owk1i")
 
 [sub_resource type="BoxMesh" id="BoxMesh_irtdf"]
-size = Vector3(10, 2, 10)
+size = Vector3(20, 8, 20)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khfql"]
 transparency = 1
 albedo_color = Color(0.0588235, 0.6, 1, 0.45098)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ljp7n"]
-size = Vector3(10, 2, 10)
+size = Vector3(20, 8, 20)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rul1x"]
-direction = Vector3(0, 1, 0)
-spread = 90.0
-initial_velocity_min = 3.0
-initial_velocity_max = 4.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5eyxg"]
-billboard_mode = 3
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="QuadMesh" id="QuadMesh_yibci"]
-material = SubResource("StandardMaterial3D_5eyxg")
-size = Vector2(0.02, 0.02)
+[sub_resource type="Environment" id="Environment_yg18i"]
+fog_enabled = true
+fog_light_color = Color(0.278431, 0.301961, 0.305882, 1)
+fog_height_density = 1.0
 
 [node name="MiniGame3D" type="Node3D"]
 
@@ -51,25 +45,40 @@ shadow_opacity = 0.5
 [node name="GameMgr" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_ef5pj")
-damage_obj_scene = ExtResource("2_o3bx6")
+
+[node name="CharaMgr" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_onxce")
+player_scene = ExtResource("3_ep38l")
+enemy_scene = ExtResource("2_o3bx6")
+coin_scene = ExtResource("5_uxr51")
+
+[node name="CoinAudio" type="AudioStreamPlayer3D" parent="CharaMgr"]
+stream = ExtResource("6_flmiy")
+volume_db = 5.0
+
+[node name="DuckAudio" type="AudioStreamPlayer3D" parent="CharaMgr"]
+stream = ExtResource("7_dyd3d")
+volume_db = 10.0
 
 [node name="CameraCursor" type="Node3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_v8eon")
 
 [node name="Camera3D" type="Camera3D" parent="CameraCursor"]
-transform = Transform3D(1, 0, 0, 0, 0.794606, 0.607126, 0, -0.607126, 0.794606, 0, 2.7613, 6.64324)
-fov = 60.0
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8.1743, 9.48763)
+fov = 40.0
 
 [node name="Cursor" type="Node3D" parent="CameraCursor"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CameraCursor/Cursor"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.01, 0)
 sorting_offset = 100.0
-mesh = SubResource("CylinderMesh_hpchg")
-surface_material_override/0 = SubResource("StandardMaterial3D_v03kc")
+mesh = SubResource("QuadMesh_yca5c")
+surface_material_override/0 = SubResource("ShaderMaterial_xvuc3")
 
 [node name="WaterSurface" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
 collision_layer = 9
 gravity_point_center = Vector3(0, 1, 0)
 gravity_direction = Vector3(0, 1, 0)
@@ -86,16 +95,163 @@ metadata/_edit_lock_ = true
 shape = SubResource("BoxShape3D_ljp7n")
 metadata/_edit_lock_ = true
 
-[node name="CharaMgr" type="Node3D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("4_onxce")
-chara_scene = ExtResource("3_ep38l")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_yg18i")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.19783, 2.38601, 0)
-emitting = false
-amount = 100
-lifetime = 0.5
-one_shot = true
-process_material = SubResource("ParticleProcessMaterial_rul1x")
-draw_pass_1 = SubResource("QuadMesh_yibci")
+[node name="GUI" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("7_8rnob")
+
+[node name="GameState" type="HBoxContainer" parent="GUI"]
+layout_mode = 2
+size_flags_vertical = 0
+alignment = 1
+
+[node name="Life" type="Label" parent="GUI/GameState"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Duck: 0"
+
+[node name="Time" type="Label" parent="GUI/GameState"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Time: 100"
+horizontal_alignment = 2
+
+[node name="Title" type="CenterContainer" parent="GUI"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GUI/Title"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 40
+text = "Tap or Click to Start!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Result" type="MarginContainer" parent="GUI"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 200
+
+[node name="VBox" type="VBoxContainer" parent="GUI/Result"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GUI/Result/VBox"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 50
+text = "Result"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacing1" type="Control" parent="GUI/Result/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Table" type="GridContainer" parent="GUI/Result/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="LifeLabel" type="Label" parent="GUI/Result/VBox/Table"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 40
+text = "Duck"
+vertical_alignment = 1
+
+[node name="LifeValue" type="Label" parent="GUI/Result/VBox/Table"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 40
+text = "2 x 500"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="CoinLabel" type="Label" parent="GUI/Result/VBox/Table"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 40
+text = "Coin Bonus"
+vertical_alignment = 1
+
+[node name="CoinValue" type="Label" parent="GUI/Result/VBox/Table"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 40
+text = "20 x 200"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Spacing1" type="Control" parent="GUI/Result/VBox/Table"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Spacing2" type="Control" parent="GUI/Result/VBox/Table"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="TotalLabel" type="Label" parent="GUI/Result/VBox/Table"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 40
+text = "Total Score"
+vertical_alignment = 1
+
+[node name="TotalValue" type="Label" parent="GUI/Result/VBox/Table"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 40
+text = "5000"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Spacing2" type="Control" parent="GUI/Result/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="GUI/Result/VBox"]
+custom_minimum_size = Vector2(400, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("7_4dd8f")
+theme_override_font_sizes/font_size = 28
+text = "Tap or Click to Return!"

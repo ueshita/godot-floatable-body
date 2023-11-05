@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnrpy26qxlbcm"]
+
+[ext_resource type="Script" path="res://demo/minigame/coin.gd" id="1_cpehk"]
+[ext_resource type="PackedScene" uid="uid://ccp75tib8wqic" path="res://demo/models/Coin.glb" id="2_8qeee"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_l1o84"]
+radius = 0.4
+
+[node name="Coin" type="RigidBody3D"]
+mass = 0.5
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, -0.2, 0)
+max_contacts_reported = 10
+contact_monitor = true
+script = ExtResource("1_cpehk")
+fluid_damp = 6.0
+
+[node name="Mesh" parent="." instance=ExtResource("2_8qeee")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_l1o84")

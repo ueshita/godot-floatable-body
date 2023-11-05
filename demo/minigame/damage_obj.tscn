@@ -1,19 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://css18x6gu4u5f"]
 
 [ext_resource type="Script" path="res://demo/minigame/damage_obj.gd" id="1_2eyg3"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_qt4o0"]
+[ext_resource type="PackedScene" uid="uid://bqrtefth2guyy" path="res://demo/models/Crate.glb" id="2_hsu7e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vbgiy"]
 
 [node name="DamageObj" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20023, 0)
+mass = 2.0
 max_contacts_reported = 10
 contact_monitor = true
 script = ExtResource("1_2eyg3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_qt4o0")
+[node name="Mesh" parent="." instance=ExtResource("2_hsu7e")]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, -0.5, 0)
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
