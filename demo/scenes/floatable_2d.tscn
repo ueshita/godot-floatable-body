@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://addons/floatable_body/floatable_body_2d.gd" id="2_wdx14"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gm48q"]
-size = Vector2(1280, 240)
+size = Vector2(1024, 240)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v4kn0"]
 size = Vector2(64, 64)
@@ -34,13 +34,13 @@ height = 100.0
 [node name="Floatable2D" type="Node2D"]
 
 [node name="FluidArea2D" type="Area2D" parent="."]
-position = Vector2(640, 600)
+position = Vector2(512, 600)
 script = ExtResource("1_haxlb")
 
 [node name="ColorRect" type="ColorRect" parent="FluidArea2D"]
-offset_left = -640.0
+offset_left = -512.0
 offset_top = -120.0
-offset_right = 640.0
+offset_right = 512.0
 offset_bottom = 120.0
 color = Color(0.172549, 0.54902, 0.917647, 0.427451)
 
