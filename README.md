@@ -5,6 +5,8 @@
 ![](docs/floatable_2d.gif)
 
 ## Description
+![](docs/icon.png)
+
 This is a simple physics system working on Godot Engine 4 that simulates the behavior of an object floating in a water-like fluid.
 
 - All buoyancy control code is written in GDScript.
@@ -24,8 +26,8 @@ The above explanation is for 3D, but the procedure is the same for 2D.
 
 ![](docs/basic_usage_2d.png)
 
-## Specification
-The parameters that are important for an object to float in water are
+## Specification of parameters
+Describes the parameters that are important for an `FloatableBody3D/2D` to float in water.
 - `Density` of `FluidArea3D/2D`.
   - The more fluid density you increase, the more buoyant the object will be.
 - `Mass` of `RigidBody3D/2D`.
