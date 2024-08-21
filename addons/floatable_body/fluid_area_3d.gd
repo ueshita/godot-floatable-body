@@ -15,8 +15,9 @@ func _ready() -> void:
 		if collision is CollisionShape3D:
 			var shape: Shape3D = collision.shape
 			if shape is BoxShape3D:
-				var extent: Vector3 = shape.size * 0.5
-				surface_height += (collision.transform * extent).y
+				var collision_top = Vector3(0.0, shape.size.y * 0.5, 0.0)
+				surface_height += (collision.transform * collision_top).y
+				break
 
 	body_entered.connect(body_enter)
 	body_exited.connect(body_exit)

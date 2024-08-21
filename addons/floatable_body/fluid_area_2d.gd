@@ -15,8 +15,10 @@ func _ready() -> void:
 		if collision is CollisionShape2D:
 			var shape: Shape2D = collision.shape
 			if shape is RectangleShape2D:
-				var extent: Vector2 = shape.size * 0.5
-				surface_height -= (collision.transform * extent).y
+				var collision_top = Vector2(0.0, -shape.size.y * 0.5)
+				var v = collision.transform * collision_top
+				surface_height += (collision.transform * collision_top).y
+				break
 
 	body_entered.connect(body_enter)
 	body_exited.connect(body_exit)
