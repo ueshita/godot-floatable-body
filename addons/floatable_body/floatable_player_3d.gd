@@ -2,7 +2,7 @@ extends CharacterBody3D
 class_name FloatablePlayer3D
 
 @export var mass := 1.0
-@export var fluid_damp := 5.0
+@export var fluid_damp := 4.0
 @export var move_speed := 10.0
 @export var rotate_speed := 10.0
 @onready var fluid_interactor := FluidInteractor3D.new()

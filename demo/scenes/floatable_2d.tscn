@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://addons/floatable_body/fluid_area_2d.gd" id="1_haxlb"]
 [ext_resource type="Script" path="res://addons/floatable_body/floatable_player_2d.gd" id="2_fxsnd"]
-[ext_resource type="Texture2D" uid="uid://cfp2bdb1fkbyp" path="res://demo/icon.svg" id="2_g041f"]
 [ext_resource type="Script" path="res://addons/floatable_body/floatable_body_2d.gd" id="2_wdx14"]
+[ext_resource type="Texture2D" uid="uid://bc43shejcviu" path="res://demo/godot.svg" id="3_yeonr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gm48q"]
 size = Vector2(1024, 240)
@@ -11,16 +11,16 @@ size = Vector2(1024, 240)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v4kn0"]
 size = Vector2(64, 64)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5pliw"]
-size = Vector2(200, 30)
-
 [sub_resource type="QuadMesh" id="QuadMesh_846qx"]
 size = Vector2(200, 30)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_q723d"]
-size = Vector2(30, 30)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5pliw"]
+size = Vector2(200, 30)
 
 [sub_resource type="QuadMesh" id="QuadMesh_dxn3j"]
+size = Vector2(30, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q723d"]
 size = Vector2(30, 30)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_3f855"]
@@ -50,11 +50,11 @@ shape = SubResource("RectangleShape2D_gm48q")
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(602, 91)
 script = ExtResource("2_fxsnd")
-fluid_damp = 4.0
+mass = 4.0
 
 [node name="Icon" type="Sprite2D" parent="Player"]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_g041f")
+texture = ExtResource("3_yeonr")
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
@@ -64,31 +64,32 @@ metadata/_edit_lock_ = true
 [node name="Box2" type="RigidBody2D" parent="."]
 position = Vector2(809, 223)
 rotation = 0.181514
+mass = 0.4
 script = ExtResource("2_wdx14")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Box2"]
-shape = SubResource("RectangleShape2D_5pliw")
-metadata/_edit_lock_ = true
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="Box2"]
 mesh = SubResource("QuadMesh_846qx")
 metadata/_edit_lock_ = true
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box2"]
+shape = SubResource("RectangleShape2D_5pliw")
+metadata/_edit_lock_ = true
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(734, 278)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("RectangleShape2D_q723d")
-metadata/_edit_lock_ = true
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="StaticBody2D"]
 mesh = SubResource("QuadMesh_dxn3j")
 metadata/_edit_lock_ = true
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_q723d")
+metadata/_edit_lock_ = true
+
 [node name="FloatableBody2D" type="RigidBody2D" parent="."]
 position = Vector2(396, 243)
 rotation = 2.05774
-mass = 2.0
+mass = 0.8
 center_of_mass_mode = 1
 center_of_mass = Vector2(0, 50)
 script = ExtResource("2_wdx14")

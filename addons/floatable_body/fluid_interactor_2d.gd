@@ -62,7 +62,7 @@ func process(transform: Transform2D, mass: float = 1.0, gravity_scale: float = 1
 			float_diff = max_diff
 
 		float_position = sum_positions / sum_weights - transform.origin
-		float_force = Vector2.UP * float_diff * float_volume / mass * fluid_area.density * gravity_scale
+		float_force = Vector2.UP * float_diff * float_volume / mass * fluid_area.density * 1000.0 * gravity_scale
 
 
 func add_collision_shape(collision: CollisionShape2D) -> void:

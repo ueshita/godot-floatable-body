@@ -1,7 +1,7 @@
 extends Area2D
 class_name FluidArea2D
 
-@export var density: float = 100.0
+@export var density: float = 1.0
 @export var simulate_turbulence := true
 
 @onready var time := 0.0
