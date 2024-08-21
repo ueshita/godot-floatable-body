@@ -17,7 +17,7 @@ func _ready():
 				fluid_interactor.add_collision_shape(collision)
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	fluid_interactor.process(global_transform, mass, gravity_scale)
 	
 	for floater in fluid_interactor.get_floaters():
@@ -28,7 +28,7 @@ func _physics_process(_delta: float) -> void:
 
 	if not fluid_interactor.float_force.is_zero_approx():
 		# Bouyancy
-		apply_force(fluid_interactor.float_force, fluid_interactor.float_position)
+		apply_force(fluid_interactor.float_force * delta, fluid_interactor.float_position)
 		# Damping
 		linear_damp = fluid_damp
 		angular_damp = fluid_damp
