@@ -87,7 +87,37 @@ func add_collision_shape(collision: CollisionShape3D) -> void:
 		add_floater(collision.transform * Vector3(0.0, -shape.height * 0.5, 0.0), shape.radius)
 		add_floater(collision.transform * Vector3(0.0, +shape.height * 0.5, 0.0), shape.radius)
 		volume += (4.0 / 3.0) * PI * pow(shape.radius, 3.0) + PI * pow(shape.radius, 2.0) * shape.height
-
+	## We assume that the convex shape is similar both to a rectangle and to a deformed sphere,
+	## for general cases, let's approximate it as rectangle, that is, we'll try to translate the shape into a BoxShape3D.
+	## Unfortunately GDScript does not define a built-in formula to calculate it (yet).
+	## Let xl, xu, yl, yu, zl and zu the lower and upper values for each axis.
+	## We calculate it with ConvexPolygonShape3D.points
+	elif shape is ConvexPolygonShape3D:
+		var min_values:= Vector3()
+		var max_values:= Vector3()
+		for point in shape.points:
+			if point.x < min_values.x:
+				min_values.x = point.x
+			if point.y < min_values.y:
+				min_values.y = point.y
+			if point.z < min_values.z:
+				min_values.z = point.z
+			if point.x > max_values.x:
+				max_values.x = point.x
+			if point.y > max_values.y:
+				max_values.y = point.y
+			if point.z > max_values.z:
+				max_values.z = point.z
+		var pseudo_size := max_values - min_values
+		
+		## Since here, it's a code we already know
+		var extent: Vector3 = pseudo_size * 0.5
+		
+		add_floater(collision.transform * Vector3(-extent.x, 0.0, -extent.z))
+		add_floater(collision.transform * Vector3(-extent.x, 0.0,  extent.z))
+		add_floater(collision.transform * Vector3( extent.x, 0.0, -extent.z))
+		add_floater(collision.transform * Vector3( extent.x, 0.0,  extent.z))
+		volume +=  pseudo_size.x * pseudo_size.y * pseudo_size.z
 
 func add_floater(position: Vector3, radius: float = 0.0) -> void:
 	floaters.push_back(Floater3D.new(position, radius))
