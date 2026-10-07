@@ -87,6 +87,30 @@ func add_collision_shape(collision: CollisionShape3D) -> void:
 		add_floater(collision.transform * Vector3(0.0, -shape.height * 0.5, 0.0), shape.radius)
 		add_floater(collision.transform * Vector3(0.0, +shape.height * 0.5, 0.0), shape.radius)
 		volume += (4.0 / 3.0) * PI * pow(shape.radius, 3.0) + PI * pow(shape.radius, 2.0) * shape.height
+	elif shape is ConvexPolygonShape3D:
+		_add_polygon_floaters(shape.points, collision.transform)
+	elif shape is ConcavePolygonShape3D:
+		_add_polygon_floaters(shape.get_faces(), collision.transform)
+
+
+func _add_polygon_floaters(points: PackedVector3Array, transform: Transform3D) -> void:
+	if points.is_empty():
+		return
+
+	var bounds := AABB(points[0], Vector3.ZERO)
+	var unique_points := {}
+	for point in points:
+		bounds = bounds.expand(point)
+		unique_points[point] = true
+
+	# Polygon volume is approximated by its local bounding box.
+	# Transform the samples and account for scaling without counting translation.
+	var polygon_volume := bounds.size.x * bounds.size.y * bounds.size.z * absf(transform.basis.determinant())
+	if polygon_volume <= 0.0:
+		return
+	for point in unique_points:
+		add_floater(transform * point)
+	volume += polygon_volume
 
 
 func add_floater(position: Vector3, radius: float = 0.0) -> void:

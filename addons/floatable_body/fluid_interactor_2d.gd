@@ -79,6 +79,30 @@ func add_collision_shape(collision: CollisionShape2D) -> void:
 		add_floater(collision.transform * Vector2(0.0, -shape.height * 0.5), shape.radius)
 		add_floater(collision.transform * Vector2(0.0, +shape.height * 0.5), shape.radius)
 		volume += (PI * pow(shape.radius, 2.0) + shape.radius * 2 * shape.height) / 10000
+	elif shape is ConvexPolygonShape2D:
+		_add_polygon_floaters(shape.points, collision.transform)
+	elif shape is ConcavePolygonShape2D:
+		_add_polygon_floaters(shape.segments, collision.transform)
+
+
+func _add_polygon_floaters(points: PackedVector2Array, transform: Transform2D) -> void:
+	if points.is_empty():
+		return
+
+	var bounds := Rect2(points[0], Vector2.ZERO)
+	var unique_points := {}
+	for point in points:
+		bounds = bounds.expand(point)
+		unique_points[point] = true
+
+	# Segment shapes do not define a solid interior; approximate polygon area
+	# with the local bounding rectangle, using the same units as other 2D shapes.
+	var polygon_area := bounds.size.x * bounds.size.y * absf(transform.determinant()) / 10000.0
+	if polygon_area <= 0.0:
+		return
+	for point in unique_points:
+		add_floater(transform * point)
+	volume += polygon_area
 
 
 func add_floater(position: Vector2, radius: float = 0.0) -> void:
